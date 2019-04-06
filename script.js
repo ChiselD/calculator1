@@ -18,16 +18,38 @@ function calculate(arr) {
 	// validate input
 	let calculation = validateInput(arr);
 	// combine individual digit characters into full number strings
+	// strip extra zeroes from start of each number if necessary
 	// convert number strings to actual numbers
+	console.log(calculation);
 }
 
 function validateInput(arr) {
 	let validInput = [];
-	for (let i = 0, len = input.length; i < len; i++) {
-		if (input[i] === '-') { validInput.push(input[i]); }
-		if (isOperator(input[i]) && i > 0) { validInput.push(input[i]); }
-		if (isOperator(input[i]) && isOperator(input[i+1])) {
-
+	for (let i = 0, len = arr.length; i < len; i++) {
+		// check operator validity (put in separate function?)
+		if (i === 0 && arr[i] === '-' && !isOperator(arr[i+1])) {
+			console.log("Valid initial minus! Pushing to array...");
+			validInput.push(arr[i]);
+		} else if (i > 0 && isOperator(arr[i]) && !isOperator(arr[i+1])) {
+			console.log("Valid operator! Pushing to array...");
+			validInput.push(arr[i]);
+		}
+		// check number validity (all valid unless over 8 digits or starting w/ 0)
+		// TO DO: over-8-digit checking should take place in UI directly at entry!
+		// move commented-out code below to there when the time comes
+		// TO DO: numbers starting with zero should be removed from arr afterward
+		if (isNumber(arr[i])) {
+			console.log("Valid number! Pushing to array...");
+			validInput.push(arr[i]);
+			// let numLength = 1;
+			// for (let j = i-1; j >= 0; j--) {
+			// 	if (isNumber(arr[j])) {
+			// 		numLength++;
+			// 	}
+			// }
+			// if (numLength < 9) {
+				
+			// }
 		}
 	}
 	return validInput;
@@ -45,8 +67,24 @@ function isEndKey(s) {
 	return endKeys.indexOf(s) !== -1;
 }
 
+function zeroStripper(str) {
+	let num = Array.from(str);
+	while (num[0] === '0') {
+		num.splice(0, 1);
+	}
+	return num;
+}
+
 
 // calculate(['2', '5', '-', '5', '=']);
+// calculate(['0', '2', '5', '-', '5', '=']);
+// calculate(['+', '2', '5', '-', '5', '=']);
+// calculate(['-', '2', '5', '-', '5', '=']);
+// calculate(['*', '2', '5', '-', '5', '=']);
+// calculate(['/', '2', '5', '-', '5', '=']);
+// calculate(['2', '5', '-', '+', '5', '=']);
+// calculate(['2', '5', '-', '+', '/', '5', '=']);
+zeroStripper('00056');
 
 
 
